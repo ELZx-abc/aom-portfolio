@@ -225,18 +225,18 @@
     .title-icon { width: 42px; height: 42px; flex: 0 0 auto; display: inline-grid; place-items: center; color: var(--blue-bright); border: 1px solid rgba(142, 175, 231, .2); border-radius: 14px; background: rgba(107, 141, 201, .09); }
     .title-icon svg { width: 22px; height: 22px; }
     .page-title p { margin: 0; color: var(--muted); }
-    .profile-layout { display: grid; grid-template-columns: minmax(230px, .75fr) 1.4fr; gap: 22px; }
+    .profile-layout { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(230px, .75fr); grid-template-areas: "info portrait"; gap: 22px; }
     .portrait-card, .info-panel, .form-panel, .empty-state, .work-card {
       border: 1px solid var(--line);
       border-radius: var(--radius);
       background: linear-gradient(145deg, rgba(25, 33, 48, .96), rgba(17, 22, 33, .96));
     }
-    .portrait-card { overflow: hidden; padding: 14px; }
+    .portrait-card { grid-area: portrait; overflow: hidden; padding: 14px; }
     .portrait-card img { display: block; width: 100%; aspect-ratio: .86; object-fit: cover; object-position: center 22%; border-radius: 15px; }
     .portrait-caption { padding: 17px 7px 7px; }
     .portrait-caption strong { display: block; font-size: 18px; }
     .portrait-caption span { display: block; margin-top: 6px; color: var(--muted); font-size: 13px; }
-    .info-panel { padding: 28px; animation: card-rise .55s both; }
+    .info-panel { grid-area: info; padding: 28px; animation: card-rise .55s both; }
     .info-panel h2 { display: flex; align-items: center; gap: 10px; margin: 0 0 20px; font-size: 21px; }
     .heading-icon { width: 34px; height: 34px; display: grid; place-items: center; color: var(--blue-bright); border: 1px solid rgba(142, 175, 231, .2); border-radius: 11px; background: rgba(107, 141, 201, .09); }
     .heading-icon svg { width: 18px; height: 18px; }
@@ -354,7 +354,8 @@
       .profile-photo { width: 105px; }
       .intro-card p { font-size: 13px; }
       .education-grid { grid-template-columns: repeat(2, 1fr); }
-      .profile-layout, .works-layout { grid-template-columns: 1fr; }
+      .profile-layout { grid-template-columns: 1fr; grid-template-areas: "portrait" "info"; }
+      .works-layout { grid-template-columns: 1fr; }
       .portrait-card { display: grid; grid-template-columns: 125px 1fr; gap: 16px; align-items: center; }
       .portrait-card img { aspect-ratio: 1; }
       .portrait-caption { padding: 10px 0; }
