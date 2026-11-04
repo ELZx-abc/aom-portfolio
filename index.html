@@ -157,6 +157,13 @@
       font-size: 12px;
     }
     .tag svg { width: 15px; height: 15px; flex: 0 0 auto; color: var(--gold); }
+    .tag { transition: background .2s ease, border-color .2s ease, color .2s ease; }
+    .tag.active-filter {
+      color: #ffffff;
+      border-color: var(--blue-bright);
+      background: rgba(134, 173, 255, .24);
+      box-shadow: 0 0 10px rgba(134, 173, 255, .15);
+    }
     .section-heading {
       display: flex;
       align-items: end;
@@ -312,7 +319,96 @@
     .empty-state strong { display: block; margin-bottom: 7px; color: #e4e9f2; font-size: 14px; }
     .empty-state p { margin: 0; font-size: 12px; }
     .work-card { display: grid; grid-template-columns: minmax(0, 155px) minmax(0, 1fr); overflow: hidden; }
-    .work-preview { display: block; width: 100%; min-width: 0; min-height: 155px; padding: 0; overflow: hidden; border: 0; background: #0b1019; cursor: zoom-in; }
+        .pdf-file-badge {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 9px;
+      color: #ffd8d2;
+      background: rgba(18, 12, 16, .88);
+      backdrop-filter: blur(4px);
+      border: 1px solid rgba(255, 130, 110, .45);
+      border-radius: 7px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .02em;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .pdf-file-badge svg { width: 13px; height: 13px; }
+    .pdf-action-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 10px;
+      margin: 14px 0 16px;
+      padding: 13px 15px;
+      border: 1px solid rgba(255, 149, 132, .25);
+      border-radius: 12px;
+      background: rgba(255, 149, 132, .06);
+    }
+    .pdf-action-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 9px 16px;
+      color: #0c1421 !important;
+      background: linear-gradient(135deg, #ffd7d2, #ff9e92);
+      border: 0;
+      border-radius: 9px;
+      font-size: 13px;
+      font-weight: 700;
+      text-decoration: none;
+      cursor: pointer;
+      transition: transform .2s, filter .2s;
+    }
+    .pdf-action-btn:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.08);
+    }
+    .pdf-action-btn svg { width: 16px; height: 16px; }
+    .pdf-secondary-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 8px 14px;
+      color: #e2e8f2 !important;
+      background: rgba(255, 255, 255, .08);
+      border: 1px solid var(--line);
+      border-radius: 9px;
+      font-size: 12px;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background .2s, border-color .2s;
+    }
+    .pdf-secondary-btn:hover {
+      background: rgba(255, 255, 255, .15);
+      border-color: rgba(255, 255, 255, .3);
+    }
+    .pdf-secondary-btn svg { width: 14px; height: 14px; }
+    .pdf-card-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px 10px;
+      color: #ffb4a8 !important;
+      border: 1px solid rgba(255, 149, 132, .3);
+      border-radius: 8px;
+      background: rgba(255, 149, 132, .08);
+      font-size: 11px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: background .2s;
+    }
+    .pdf-card-link:hover {
+      background: rgba(255, 149, 132, .18);
+    }
+    .pdf-card-link svg { width: 13px; height: 13px; }
+    .work-preview { position: relative; display: block; width: 100%; min-width: 0; min-height: 155px; padding: 0; overflow: hidden; border: 0; background: #0b1019; cursor: zoom-in; }
     .work-preview:focus-visible { position: relative; z-index: 1; outline: 2px solid var(--blue-bright); outline-offset: -3px; }
     .work-preview:hover .work-image { transform: scale(1.04); }
     .work-image { width: 100%; height: 100%; min-height: 155px; object-fit: cover; background: #0b1019; transition: transform .25s ease; }
@@ -576,6 +672,7 @@
 
         <div class="works-list">
           <div class="list-heading"><h2><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 5h13M8 12h13M8 19h13"/><path d="M3 5h.01M3 12h.01M3 19h.01"/></svg>รายการผลงาน</h2><span>กดที่รูปเพื่อขยายดูผลงาน</span></div>
+          <div class="week-filter-bar" id="week-filter-bar" style="display: flex; gap: 8px; flex-wrap: wrap; margin: 6px 0 12px;"></div>
           <div id="work-items" aria-live="polite"></div>
         </div>
       </div>
@@ -590,6 +687,7 @@
         <h2 id="work-dialog-title"></h2>
         <p class="work-date" id="work-dialog-date"></p>
         <span class="work-time" id="work-dialog-time"></span>
+        <div id="work-dialog-pdf-actions" style="display: none;"></div>
         <p class="work-description" id="work-dialog-description"></p>
       </div>
     </div>
@@ -651,19 +749,96 @@
         });
       }
 
+      const defaultWorks = [
+        {
+          id: "def-week2-pdf-sdlc",
+          title: "ไฟล์เอกสารนำเสนอ: การพัฒนาระบบสารสนเทศ (SDLC 7 ขั้นตอน)",
+          date: "2026-10-29",
+          week: 2,
+          time: "10:00",
+          description: `เอกสารนำเสนอ: การพัฒนาระบบสารสนเทศ วงจร SDLC 7 ขั้นตอน: จากปัญหาทางธุรกิจสู่ความสำเร็จขององค์กร (SDLC Blueprint to Reality)
+• ไฟล์เอกสารฉบับเต็มรูปแบบ PDF จำนวน 13 หน้า (ขนาด 1.18 MB)
+• เนื้อหา: ปัญหาทางธุรกิจสู่ความสำเร็จ, แก่นแท้ของการพัฒนาระบบ, วงจร SDLC 7 ขั้นตอน, ตารางวิเคราะห์บุคลากรและผลลัพธ์แต่ละขั้นตอน, นิยามศัพท์สำคัญ และบทสรุป
+• สามารถกดปุ่ม "เปิดอ่านไฟล์ PDF" เพื่อเปิดอ่านเอกสารฉบับเต็มได้ทันที หรือดาวน์โหลดเก็บไว้ได้`,
+          image: "images/sdlc-cover-blueprint.jpg",
+          pdfUrl: "files/SDLC_Blueprint_to_Reality_compressed.pdf",
+          pdfName: "SDLC_Blueprint_to_Reality_compressed.pdf",
+          pdfPages: "13 หน้า",
+          createdAt: 1730175600000
+        },
+        {
+          id: "def-week2-sdlc",
+          title: "ผังสรุปความรู้: การพัฒนาระบบสารสนเทศ (SDLC)",
+          date: "2026-10-29",
+          week: 2,
+          time: "10:30",
+          description: `สรุปสาระสำคัญการพัฒนาระบบสารสนเทศ และวงจรการพัฒนาระบบ SDLC (Systems Development Life Cycle) 7 ขั้นตอนหลัก:
+1. เข้าใจปัญหา (Problem Recognition)
+2. ศึกษาความเป็นไปได้ (Feasibility Study)
+3. วิเคราะห์ระบบ (Analysis)
+4. ออกแบบระบบ (Design)
+5. พัฒนาระบบ (Development)
+6. ทดสอบและติดตั้งระบบ (Implementation and Testing)
+7. บำรุงรักษาระบบ (Maintenance)`,
+          image: "images/week2-sdlc-mindmap.jpg",
+          createdAt: 1730173800000
+        },
+        {
+          id: "def-week2-exercise-quiz",
+          title: "แบบฝึกหัดและแบบทดสอบหลังเรียน หน่วยที่ 1",
+          date: "2026-10-29",
+          week: 2,
+          time: "11:00",
+          description: `แบบฝึกหัดและแบบทดสอบวัดผลสัมฤทธิ์หลังเรียน หน่วยการเรียนรู้ที่ 1 เรื่อง การพัฒนาระบบสารสนเทศ
+• แบบฝึกหัด 5 ข้อ: อธิบายความหมายการพัฒนาระบบ, วงจร SDLC 7 ขั้นตอน, และการดูแลรักษาระบบ
+• แบบทดสอบหลังเรียน 10 ข้อ: วัดความเข้าใจกระบวนการพัฒนาและวิเคราะห์ระบบ พร้อมเฉลยคำตอบครบถ้วน`,
+          image: "images/week2-exercise-quiz.jpg",
+          createdAt: 1730172000000
+        }
+      ];
+
+      let selectedWeekFilter = "all";
+      let allLoadedWorks = [];
+
+      function getHiddenDefaultWorkIds() {
+        try {
+          return JSON.parse(localStorage.getItem("aom-hidden-default-works") || "[]");
+        } catch {
+          return [];
+        }
+      }
+
+      function getWorkImageUrl(img) {
+        if (!img) return "";
+        if (typeof img === "string") return img;
+        if (img instanceof Blob || img instanceof File) return URL.createObjectURL(img);
+        return "";
+      }
+
       async function getWorks() {
-        const transaction = database.transaction("works", "readonly");
-        const done = transactionDone(transaction);
-        const request = transaction.objectStore("works").getAll();
-        const results = await new Promise((resolve, reject) => {
-          request.onsuccess = () => resolve(request.result);
-          request.onerror = () => reject(request.error || new Error("โหลดรายการผลงานไม่สำเร็จ"));
-        });
-        await done;
-        return results.sort((first, second) => second.createdAt - first.createdAt);
+        let userWorks = [];
+        if (database) {
+          try {
+            const transaction = database.transaction("works", "readonly");
+            const done = transactionDone(transaction);
+            const request = transaction.objectStore("works").getAll();
+            userWorks = await new Promise((resolve, reject) => {
+              request.onsuccess = () => resolve(request.result || []);
+              request.onerror = () => reject(request.error || new Error("โหลดรายการผลงานไม่สำเร็จ"));
+            });
+            await done;
+          } catch (error) {
+            console.warn("ไม่สามารถอ่านข้อมูลจาก IndexedDB ได้:", error);
+          }
+        }
+        const hiddenIds = getHiddenDefaultWorkIds();
+        const activeDefaults = defaultWorks.filter((item) => !hiddenIds.includes(item.id));
+        const combined = [...userWorks, ...activeDefaults];
+        return combined.sort((first, second) => second.createdAt - first.createdAt);
       }
 
       function formatDate(value) {
+        if (!value) return "";
         const [year, month, day] = value.split("-").map(Number);
         return new Intl.DateTimeFormat("th-TH", { day: "numeric", month: "long", year: "numeric" })
           .format(new Date(year, month - 1, day));
@@ -691,12 +866,51 @@
         return icon;
       }
 
-      function renderWorks(works) {
-        imageUrls.forEach((url) => URL.revokeObjectURL(url));
+      function updateWeekFilterButtons(works) {
+        const filterBar = document.getElementById("week-filter-bar");
+        if (!filterBar) return;
+        const weeks = Array.from(new Set(works.map((w) => Number(w.week)).filter(Boolean))).sort((a, b) => a - b);
+        filterBar.replaceChildren();
+
+        const allBtn = makeElement("button", "tag" + (selectedWeekFilter === "all" ? " active-filter" : ""), `ทั้งหมด (${works.length})`);
+        allBtn.type = "button";
+        allBtn.style.cursor = "pointer";
+        allBtn.addEventListener("click", () => {
+          selectedWeekFilter = "all";
+          updateWeekFilterButtons(allLoadedWorks);
+          renderFilteredWorks();
+        });
+        filterBar.append(allBtn);
+
+        weeks.forEach((w) => {
+          const count = works.filter((item) => Number(item.week) === w).length;
+          const btn = makeElement("button", "tag" + (selectedWeekFilter === String(w) ? " active-filter" : ""), `สัปดาห์ที่ ${w} (${count})`);
+          btn.type = "button";
+          btn.style.cursor = "pointer";
+          btn.addEventListener("click", () => {
+            selectedWeekFilter = String(w);
+            updateWeekFilterButtons(allLoadedWorks);
+            renderFilteredWorks();
+          });
+          filterBar.append(btn);
+        });
+      }
+
+      function renderFilteredWorks() {
+        const filtered = selectedWeekFilter === "all"
+          ? allLoadedWorks
+          : allLoadedWorks.filter((w) => String(w.week) === selectedWeekFilter);
+        renderWorksList(filtered);
+      }
+
+            function renderWorksList(works) {
+        imageUrls.forEach((url) => {
+          if (!url.startsWith("images/")) URL.revokeObjectURL(url);
+        });
         imageUrls = [];
         workItems.replaceChildren();
         const countIcon = workCount.firstElementChild;
-        workCount.textContent = `${works.length} ผลงาน`;
+        workCount.textContent = `${allLoadedWorks.length} ผลงาน`;
         if (countIcon) workCount.prepend(countIcon);
 
         if (works.length === 0) {
@@ -704,8 +918,8 @@
           const emptyIcon = makeElement("span", "empty-icon");
           emptyIcon.append(makeIcon("M12 3 14.8 9.2 21 12l-6.2 2.8L12 21l-2.8-6.2L3 12l6.2-2.8L12 3Z"));
           empty.append(emptyIcon);
-          empty.append(makeElement("strong", "", "ยังไม่มีผลงาน"));
-          empty.append(makeElement("p", "", "เพิ่มผลงานชิ้นแรกได้จากแบบฟอร์ม"));
+          empty.append(makeElement("strong", "", "ยังไม่มีผลงานในสัปดาห์นี้"));
+          empty.append(makeElement("p", "", "เลือกสัปดาห์อื่น หรือเพิ่มผลงานใหม่ได้จากแบบฟอร์ม"));
           workItems.append(empty);
           return;
         }
@@ -716,9 +930,17 @@
           preview.type = "button";
           preview.setAttribute("aria-label", `ขยายดูผลงาน ${work.title}`);
           const image = makeElement("img", "work-image");
-          image.src = URL.createObjectURL(work.image);
+          const src = getWorkImageUrl(work.image);
+          if (work.image instanceof Blob || work.image instanceof File) {
+            imageUrls.push(src);
+          }
+          image.src = src;
           image.alt = `ภาพผลงาน ${work.title}`;
-          imageUrls.push(image.src);
+          if (work.pdfUrl) {
+            const pdfBadge = makeElement("span", "pdf-file-badge");
+            pdfBadge.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg> เอกสาร PDF (' + (work.pdfPages || '13 หน้า') + ')';
+            preview.append(pdfBadge);
+          }
           preview.append(image);
           preview.addEventListener("click", () => openWork(work));
           const body = makeElement("div", "work-body");
@@ -727,6 +949,17 @@
           if (work.description) body.append(makeElement("p", "work-description", work.description));
           const footer = makeElement("div", "work-footer");
           footer.append(makeElement("span", "work-time", `เวลาที่ส่ง ${work.time}`));
+          
+          if (work.pdfUrl) {
+            const pdfBtn = makeElement("a", "pdf-card-link");
+            pdfBtn.href = work.pdfUrl;
+            pdfBtn.target = "_blank";
+            pdfBtn.rel = "noopener";
+            pdfBtn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>เปิดไฟล์ PDF';
+            pdfBtn.addEventListener("click", (e) => e.stopPropagation());
+            footer.append(pdfBtn);
+          }
+
           const remove = makeElement("button", "delete-button");
           remove.type = "button";
           remove.append(makeIcon("M3 6h18M8 6V4h8v2m3 0-1 15H6L5 6m4 4v7m6-7v7"));
@@ -740,33 +973,98 @@
       }
 
       function openWork(work) {
-        workDialogImageUrl = URL.createObjectURL(work.image);
+        const isFile = work.image instanceof Blob || work.image instanceof File;
+        workDialogImageUrl = isFile ? URL.createObjectURL(work.image) : work.image;
         workDialogImage.src = workDialogImageUrl;
         workDialogImage.alt = `ภาพผลงาน ${work.title}`;
         document.getElementById("work-dialog-title").textContent = work.title;
         document.getElementById("work-dialog-date").textContent = `${formatDate(work.date)} · สัปดาห์ที่ ${work.week}`;
         document.getElementById("work-dialog-time").textContent = `เวลาที่ส่ง ${work.time}`;
         document.getElementById("work-dialog-description").textContent = work.description || "ไม่มีรายละเอียดเพิ่มเติม";
+        
+        const pdfActions = document.getElementById("work-dialog-pdf-actions");
+        if (pdfActions) {
+          if (work.pdfUrl) {
+            pdfActions.style.display = "block";
+            pdfActions.innerHTML = `
+              <div class="pdf-action-bar">
+                <a class="pdf-action-btn" href="${work.pdfUrl}" target="_blank" rel="noopener">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+                  เปิดอ่านไฟล์ PDF (${work.pdfPages || '13 หน้า'})
+                </a>
+                <a class="pdf-secondary-btn" href="${work.pdfUrl}" download="${work.pdfName || 'SDLC_Presentation.pdf'}">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                  ดาวน์โหลด PDF
+                </a>
+              </div>
+            `;
+          } else {
+            pdfActions.style.display = "none";
+            pdfActions.innerHTML = "";
+          }
+        }
+
         workDialog.showModal();
       }
 
       workDialog.addEventListener("close", () => {
-        if (workDialogImageUrl) URL.revokeObjectURL(workDialogImageUrl);
+        if (workDialogImageUrl && !workDialogImageUrl.startsWith("images/")) {
+          URL.revokeObjectURL(workDialogImageUrl);
+        }
         workDialogImageUrl = undefined;
         workDialogImage.removeAttribute("src");
       });
       document.getElementById("work-dialog-close").addEventListener("click", () => workDialog.close());
+      const slidePrevBtn = document.getElementById("slide-prev-btn");
+      const slideNextBtn = document.getElementById("slide-next-btn");
+      if (slidePrevBtn) {
+        slidePrevBtn.addEventListener("click", () => {
+          if (currentWorkSlides && currentSlideIndex > 0) {
+            currentSlideIndex--;
+            updateSlideView();
+          }
+        });
+      }
+      if (slideNextBtn) {
+        slideNextBtn.addEventListener("click", () => {
+          if (currentWorkSlides && currentSlideIndex < currentWorkSlides.length - 1) {
+            currentSlideIndex++;
+            updateSlideView();
+          }
+        });
+      }
+      window.addEventListener("keydown", (e) => {
+        if (!workDialog.open || !currentWorkSlides) return;
+        if (e.key === "ArrowLeft" && currentSlideIndex > 0) {
+          currentSlideIndex--;
+          updateSlideView();
+        } else if (e.key === "ArrowRight" && currentSlideIndex < currentWorkSlides.length - 1) {
+          currentSlideIndex++;
+          updateSlideView();
+        }
+      });
 
       async function refreshWorks() {
-        renderWorks(await getWorks());
+        allLoadedWorks = await getWorks();
+        updateWeekFilterButtons(allLoadedWorks);
+        renderFilteredWorks();
       }
 
       async function deleteWork(id) {
         if (!window.confirm("ต้องการลบผลงานรายการนี้หรือไม่?")) return;
         try {
-          const transaction = database.transaction("works", "readwrite");
-          transaction.objectStore("works").delete(id);
-          await transactionDone(transaction);
+          const isDefault = defaultWorks.some((w) => w.id === id);
+          if (isDefault) {
+            const hidden = getHiddenDefaultWorkIds();
+            if (!hidden.includes(id)) {
+              hidden.push(id);
+              localStorage.setItem("aom-hidden-default-works", JSON.stringify(hidden));
+            }
+          } else if (database) {
+            const transaction = database.transaction("works", "readwrite");
+            transaction.objectStore("works").delete(id);
+            await transactionDone(transaction);
+          }
           await refreshWorks();
           message.textContent = "ลบผลงานแล้ว";
           message.classList.add("success");
@@ -792,6 +1090,9 @@
         message.textContent = "";
         message.classList.remove("success");
         try {
+          if (!database) {
+            throw new Error("ฐานข้อมูลยังไม่พร้อมใช้งาน");
+          }
           const transaction = database.transaction("works", "readwrite");
           transaction.objectStore("works").add({
             id: crypto.randomUUID(),
@@ -818,6 +1119,12 @@
 
       window.addEventListener("hashchange", showPage);
       showPage();
+
+      // แสดงผลงานเริ่มต้นทันที
+      allLoadedWorks = defaultWorks.filter((item) => !getHiddenDefaultWorkIds().includes(item.id));
+      updateWeekFilterButtons(allLoadedWorks);
+      renderFilteredWorks();
+
       openDatabase()
         .then((openedDatabase) => {
           database = openedDatabase;
@@ -825,8 +1132,8 @@
           return refreshWorks();
         })
         .catch((error) => {
-          message.textContent = `เปิดพื้นที่บันทึกผลงานไม่สำเร็จ: ${error.message}`;
-          message.classList.remove("success");
+          console.warn("ไม่สามารถเปิดฐานข้อมูลผลงานได้:", error);
+          return refreshWorks();
         });
     })();
   </script>
