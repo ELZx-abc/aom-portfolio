@@ -318,7 +318,160 @@
     .empty-icon svg { width: 23px; height: 23px; }
     .empty-state strong { display: block; margin-bottom: 7px; color: #e4e9f2; font-size: 14px; }
     .empty-state p { margin: 0; font-size: 12px; }
-    .work-card { display: grid; grid-template-columns: minmax(0, 155px) minmax(0, 1fr); overflow: hidden; }
+    .work-card {
+      display: grid;
+      grid-template-columns: minmax(0, 160px) minmax(0, 1fr);
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      background: linear-gradient(145deg, rgba(23, 31, 46, .92), rgba(16, 21, 33, .92));
+      transition: transform .22s ease, border-color .22s ease, box-shadow .22s ease;
+    }
+    .work-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(183, 206, 255, .32);
+      box-shadow: 0 14px 34px rgba(0, 0, 0, .26);
+    }
+    .work-card.is-cover {
+      border-color: rgba(255, 150, 130, .32);
+      background: linear-gradient(145deg, rgba(34, 25, 36, .94), rgba(18, 23, 36, .94));
+    }
+    .work-card.is-cover:hover {
+      border-color: rgba(255, 160, 145, .55);
+    }
+    .work-badge-row {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      flex-wrap: wrap;
+      margin-bottom: 8px;
+    }
+    .work-type-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 9px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: .02em;
+    }
+    .work-week-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 3px 8px;
+      color: #b7ceff;
+      background: rgba(134, 173, 255, .1);
+      border: 1px solid rgba(134, 173, 255, .25);
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .type-cover {
+      color: #ffd2cc;
+      background: rgba(255, 110, 90, .14);
+      border: 1px solid rgba(255, 120, 100, .38);
+    }
+    .type-mindmap {
+      color: #ffe099;
+      background: rgba(255, 195, 80, .14);
+      border: 1px solid rgba(255, 195, 80, .35);
+    }
+    .type-quiz {
+      color: #a3e0c0;
+      background: rgba(80, 200, 140, .14);
+      border: 1px solid rgba(80, 200, 140, .35);
+    }
+    .type-assignment {
+      color: #c4d7f8;
+      background: rgba(134, 173, 255, .12);
+      border: 1px solid rgba(134, 173, 255, .3);
+    }
+    .filter-section {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin: 8px 0 16px;
+      padding: 12px 14px;
+      background: rgba(18, 24, 36, .65);
+      border: 1px solid var(--line);
+      border-radius: 15px;
+    }
+    .filter-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .filter-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-width: 82px;
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .filter-label svg {
+      width: 14px;
+      height: 14px;
+      color: var(--blue-bright);
+    }
+    .work-dialog-media-container {
+      position: relative;
+      background: #080b11;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 220px;
+    }
+    .slide-nav-overlay {
+      position: absolute;
+      bottom: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      padding: 6px 14px;
+      background: rgba(14, 20, 31, .92);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(183, 206, 255, .28);
+      border-radius: 999px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, .55);
+      z-index: 2;
+    }
+    .slide-nav-btn {
+      width: 32px;
+      height: 32px;
+      display: grid;
+      place-items: center;
+      padding: 0;
+      color: #f3f6fc;
+      background: rgba(255, 255, 255, .1);
+      border: 1px solid rgba(255, 255, 255, .18);
+      border-radius: 50%;
+      cursor: pointer;
+      transition: background .2s, transform .15s;
+    }
+    .slide-nav-btn:hover:not(:disabled) {
+      background: rgba(255, 255, 255, .25);
+      transform: scale(1.08);
+    }
+    .slide-nav-btn:disabled {
+      opacity: .3;
+      cursor: not-allowed;
+      transform: none;
+    }
+    .slide-nav-btn svg { width: 16px; height: 16px; }
+    .slide-counter-badge {
+      font-size: 13px;
+      font-weight: 700;
+      color: #dce7fc;
+      min-width: 65px;
+      text-align: center;
+      letter-spacing: .02em;
+    }
         .pdf-file-badge {
       position: absolute;
       top: 10px;
@@ -452,6 +605,9 @@
       .education-grid { grid-template-columns: repeat(2, 1fr); }
       .profile-layout { grid-template-columns: 1fr; grid-template-areas: "portrait" "info"; }
       .works-layout { grid-template-columns: 1fr; }
+      .work-card { grid-template-columns: 1fr; }
+      .work-preview { min-height: 180px; }
+      .filter-row { flex-direction: column; align-items: flex-start; gap: 6px; }
       .portrait-card { display: grid; grid-template-columns: 125px 1fr; gap: 16px; align-items: center; }
       .portrait-card img { aspect-ratio: 1; }
       .portrait-caption { padding: 10px 0; }
@@ -646,17 +802,28 @@
           </div>
           <div class="field-grid">
             <div class="field">
+              <label for="work-category"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>หมวดหมู่ผลงาน <span aria-hidden="true">*</span></label>
+              <select id="work-category" name="category" style="width: 100%; min-height: 43px; padding: 10px 12px; color: var(--text); border: 1px solid rgba(185, 203, 234, .16); border-radius: 11px; outline: none; background: #0e1422;">
+                <option value="cover">📘 หน้าปก / เอกสารนำเสนอ</option>
+                <option value="mindmap">🎨 ชิ้นงาน / ผังสรุปความรู้</option>
+                <option value="quiz">📝 ใบงาน / แบบฝึกหัดและแบบทดสอบ</option>
+                <option value="assignment">📄 ชิ้นงานทั่วไป</option>
+              </select>
+            </div>
+            <div class="field">
+              <label for="work-week"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M8 8h.01M12 8h.01M16 8h.01M8 12h.01M12 12h.01M16 12h.01M8 16h.01M12 16h.01M16 16h.01"/></svg>สัปดาห์ที่ส่ง <span aria-hidden="true">*</span></label>
+              <input id="work-week" name="week" type="number" min="1" max="52" placeholder="เช่น 2" required>
+            </div>
+          </div>
+          <div class="field-grid">
+            <div class="field">
               <label for="work-date"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M16 3v4M8 3v4M3 10h18"/></svg>วันที่ส่ง <span aria-hidden="true">*</span></label>
               <input id="work-date" name="date" type="date" required>
             </div>
             <div class="field">
-              <label for="work-week"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M8 8h.01M12 8h.01M16 8h.01M8 12h.01M12 12h.01M16 12h.01M8 16h.01M12 16h.01M16 16h.01"/></svg>สัปดาห์ที่ส่ง <span aria-hidden="true">*</span></label>
-              <input id="work-week" name="week" type="number" min="1" max="52" placeholder="เช่น 4" required>
+              <label for="work-time"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>เวลาที่ส่ง <span aria-hidden="true">*</span></label>
+              <input id="work-time" name="time" type="time" required>
             </div>
-          </div>
-          <div class="field">
-            <label for="work-time"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>เวลาที่ส่ง <span aria-hidden="true">*</span></label>
-            <input id="work-time" name="time" type="time" required>
           </div>
           <div class="field">
             <label for="work-description"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16M4 10h16M4 15h10M4 20h8"/></svg>รายละเอียดเพิ่มเติม</label>
@@ -671,8 +838,20 @@
         </form>
 
         <div class="works-list">
-          <div class="list-heading"><h2><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 5h13M8 12h13M8 19h13"/><path d="M3 5h.01M3 12h.01M3 19h.01"/></svg>รายการผลงาน</h2><span>กดที่รูปเพื่อขยายดูผลงาน</span></div>
-          <div class="week-filter-bar" id="week-filter-bar" style="display: flex; gap: 8px; flex-wrap: wrap; margin: 6px 0 12px;"></div>
+          <div class="list-heading">
+            <h2><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 5h13M8 12h13M8 19h13"/><path d="M3 5h.01M3 12h.01M3 19h.01"/></svg>รายการผลงาน</h2>
+            <span id="filtered-works-count">กดที่รูปเพื่อขยายดูผลงาน</span>
+          </div>
+          <div class="filter-section">
+            <div class="filter-row">
+              <span class="filter-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M8 8h.01M12 8h.01M16 8h.01M8 12h.01M12 12h.01M16 12h.01M8 16h.01M12 16h.01M16 16h.01"/></svg> สัปดาห์:</span>
+              <div class="week-filter-bar" id="week-filter-bar" style="display: flex; gap: 8px; flex-wrap: wrap;"></div>
+            </div>
+            <div class="filter-row">
+              <span class="filter-label"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg> หมวดหมู่:</span>
+              <div class="category-filter-bar" id="category-filter-bar" style="display: flex; gap: 8px; flex-wrap: wrap;"></div>
+            </div>
+          </div>
           <div id="work-items" aria-live="polite"></div>
         </div>
       </div>
@@ -682,8 +861,20 @@
   <dialog class="work-dialog" id="work-dialog" aria-labelledby="work-dialog-title">
     <div class="work-dialog-content">
       <button class="work-dialog-close" id="work-dialog-close" type="button" aria-label="ปิดหน้าต่าง">×</button>
-      <img class="work-dialog-image" id="work-dialog-image" alt="">
+      <div class="work-dialog-media-container">
+        <img class="work-dialog-image" id="work-dialog-image" alt="">
+        <div class="slide-nav-overlay" id="slide-nav-overlay" style="display: none;">
+          <button class="slide-nav-btn" id="slide-prev-btn" type="button" aria-label="สไลด์ก่อนหน้า">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+          <span class="slide-counter-badge" id="slide-counter-badge">1 / 10</span>
+          <button class="slide-nav-btn" id="slide-next-btn" type="button" aria-label="สไลด์ถัดไป">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+        </div>
+      </div>
       <div class="work-dialog-body">
+        <div id="work-dialog-badge-container" class="work-badge-row" style="margin-bottom: 10px;"></div>
         <h2 id="work-dialog-title"></h2>
         <p class="work-date" id="work-dialog-date"></p>
         <span class="work-time" id="work-dialog-time"></span>
@@ -751,26 +942,135 @@
 
       const defaultWorks = [
         {
-          id: "def-week2-pdf-sdlc",
-          title: "ไฟล์เอกสารนำเสนอ: การพัฒนาระบบสารสนเทศ (SDLC 7 ขั้นตอน)",
-          date: "2026-10-29",
+          id: "def-week2-pdf-oop",
+          category: "cover",
+          categoryLabel: "หน้าปก / เอกสารนำเสนอ",
+          title: "ไฟล์เอกสารนำเสนอ: หลักการและแนวคิดเชิงวัตถุ (Object-Oriented Concepts)",
+          date: "2026-11-05",
+          week: 2,
+          time: "09:30",
+          description: `เอกสารนำเสนอ: หลักการและแนวคิดเชิงวัตถุ (Object-Oriented Concepts) พื้นฐานการวิเคราะห์และออกแบบระบบ (คู่มือสรุปฉบับกระชับ)
+• หมวดหมู่: หน้าปกและเอกสารประกอบการนำเสนอ
+• ไฟล์เอกสารฉบับเต็มรูปแบบ PDF จำนวน 10 หน้า (ขนาด 1.10 MB)
+• รองรับการเปิดอ่านสไลด์ทีละหน้าในหน้าต่างขยาย หรือเปิดอ่าน/ดาวน์โหลดไฟล์ PDF ฉบับเต็ม
+• รายละเอียดเนื้อหาในแต่ละสไลด์:
+  1. หน้าปก: หลักการและแนวคิดเชิงวัตถุ (Object-Oriented Concepts)
+  2. Anatomy Breakdown: คุณสมบัติ (Attribute / State) และพฤติกรรม (Behavior / Method)
+  3. ขอบเขตระบบ (Domain), ความสัมพันธ์ (Relationship), และการสื่อสารผ่านข่าวสาร (Message)
+  4. แม่แบบคลาส (Class พิมพ์เขียว) กับ วัตถุ (Object / Instance ที่สร้างจริง) ผ่าน Instantiation
+  5. เสาหลักที่ 1: การห่อหุ้ม (Encapsulation), Data Hiding, และการควบคุม Getter / Setter
+  6. เสาหลักที่ 2: การสืบทอด (Inheritance), IS-A Relationship, Reusability, และ Method Overriding
+  7. เสาหลักที่ 3: พหุสัณฐาน (Polymorphism) One Action, Many Forms และ Runtime Polymorphism
+  8. เสาหลักที่ 4: ภาวะนามธรรม (Abstraction) Simple Interface, Hidden Complexity, และ Abstract Class
+  9. สรุปภาพรวมเสาหลักทั้ง 4 ของซอฟต์แวร์เชิงวัตถุ (OOP) จำลองโลกจริงสู่พิมพ์เขียวดิจิทัล
+  10. สรุปหน่วยการเรียนรู้ที่ 2 และคำศัพท์สำคัญ (Vocabulary & Glossary)
+• สามารถกดปุ่ม "เปิดอ่านไฟล์ PDF" เพื่อเปิดอ่านเอกสารสไลด์ฉบับเต็มได้ทันที หรือดาวน์โหลดเก็บไว้ได้`,
+          image: "images/oop-cover-blueprint.jpg",
+          pdfUrl: "files/OOP_Object_Oriented_Concepts.pdf",
+          pdfName: "OOP_Object_Oriented_Concepts.pdf",
+          pdfPages: "10 หน้า",
+          slides: [
+            "images/slides/oop/slide_1.jpg",
+            "images/slides/oop/slide_2.jpg",
+            "images/slides/oop/slide_3.jpg",
+            "images/slides/oop/slide_4.jpg",
+            "images/slides/oop/slide_5.jpg",
+            "images/slides/oop/slide_6.jpg",
+            "images/slides/oop/slide_7.jpg",
+            "images/slides/oop/slide_8.jpg",
+            "images/slides/oop/slide_9.jpg",
+            "images/slides/oop/slide_10.jpg"
+          ],
+          createdAt: 1730782200000
+        },
+        {
+          id: "def-week2-mindmap-oop",
+          category: "mindmap",
+          categoryLabel: "ชิ้นงาน / ผังสรุปความรู้",
+          title: "ผังสรุปความรู้: หลักการและแนวคิดเชิงวัตถุ (Object-Oriented Concept)",
+          date: "2026-11-05",
           week: 2,
           time: "10:00",
+          description: `สรุปสาระสำคัญผังมโนทัศน์ (Mind Map) หน่วยการเรียนรู้ที่ 2 เรื่อง หลักการและแนวคิดเชิงวัตถุ ครอบคลุม 8 สาระสำคัญ:
+1. ความหมายของวัตถุ (Object): สิ่งที่เป็นรูปธรรมและนามธรรมที่มีอยู่ในโลกของความเป็นจริง (Real World)
+2. สาระสำคัญของแนวคิดเชิงวัตถุ: มองระบบว่าเกิดจากวัตถุต่าง ๆ ที่มีหน้าที่และทำงานร่วมกัน มีคุณสมบัติและพฤติกรรม
+3. องค์ประกอบของวัตถุ: คุณสมบัติ (Attribute), พฤติกรรม (Behavior / Method), และเอกลักษณ์ (Identity / ID)
+4. ความสัมพันธ์และปฏิสัมพันธ์ระหว่างวัตถุ: ความสัมพันธ์ (Relationship), ปฏิสัมพันธ์ (Interaction), และกิจกรรม (Activity)
+5. ขอบเขตระบบ (Domain): ขอบเขตหรือส่วนของปัญหาที่เราสนใจศึกษาและออกแบบระบบ
+6. ซอฟต์แวร์เชิงวัตถุ (Object-Oriented Software): กลุ่มของวัตถุที่รับผิดชอบจัดการข้อมูลและส่งข่าวสารหากัน (Message)
+7. วัตถุและคลาส (Object & Class): Class = แม่แบบหรือพิมพ์เขียว / Object = สิ่งที่สร้างจากคลาส (Instance)
+8. หลักการสำคัญของ OOP: การห่อหุ้ม (Encapsulation), การสืบทอด (Inheritance), พหุสัณฐาน (Polymorphism), นามธรรม (Abstraction)`,
+          image: "images/week2-oop-mindmap.jpg",
+          createdAt: 1730780400000
+        },
+        {
+          id: "def-week2-exercise-quiz-oop",
+          category: "quiz",
+          categoryLabel: "ใบงาน / แบบฝึกหัดและแบบทดสอบ",
+          title: "แบบฝึกหัดและแบบทดสอบหลังเรียน หน่วยการเรียนรู้ที่ 2",
+          date: "2026-11-05",
+          week: 2,
+          time: "10:30",
+          description: `แบบฝึกหัดและแบบทดสอบวัดผลสัมฤทธิ์หลังเรียน หน่วยการเรียนรู้ที่ 2 เรื่อง หลักการและแนวคิดเชิงวัตถุ (Object-Oriented Programming)
+• ตอนที่ 1: คำถามแบบฝึกหัด 5 ข้อ พร้อมคำตอบ
+  1. จงยกตัวอย่าง Object มาอย่างน้อยคนละ 1 ตัวอย่าง
+     - คำตอบ: นักเรียน, รถยนต์, โทรศัพท์มือถือ
+  2. จงยกตัวอย่าง Attribute มาอย่างน้อยคนละ 1 ตัวอย่าง
+     - คำตอบ: ชื่อ-นามสกุล, อายุ, รหัสนักเรียน
+  3. จงยกตัวอย่างกิจกรรม (Activity) มาอย่างน้อยคนละ 1 ตัวอย่าง
+     - คำตอบ: การลงทะเบียนเรียน, การชำระเงิน, การเปิดเครื่อง
+  4. จงยกตัวอย่างพฤติกรรม (Behavior) มาอย่างน้อยคนละ 1 ตัวอย่าง
+     - คำตอบ: รถยนต์เคลื่อนที่เมื่อสตาร์ตเครื่อง, โทรศัพท์ส่งเสียงเมื่อมีสายเข้า
+  5. การบำรุงรักษาซอฟต์แวร์ประกอบไปด้วยอะไรบ้าง
+     - คำตอบ: แก้ไขข้อผิดพลาด (Corrective), ปรับให้เข้ากับสภาพแวดล้อมใหม่ (Adaptive), ปรับปรุงประสิทธิภาพ/ความสามารถ (Perfective), ป้องกันปัญหาในอนาคต (Preventive)
+• ตอนที่ 2: แบบทดสอบหลังเรียน 10 ข้อ วัดความเข้าใจแนวคิด OOP
+  - ครอบคลุม: นิยาม Object, วิธีคิดเชิงวัตถุ, แบบจำลองระบบ, ขอบเขต Domain, ความสัมพันธ์ระหว่างวัตถุ, เสาหลักของ OOP, ลักษณะ 3 ประการของ Object, นิยามความหมาย, Polymorphism, Encapsulation
+  - เฉลยคำตอบถูกต้องครบถ้วน: 1.ก, 2.ง, 3.ค, 4.ข, 5.ง, 6.ง, 7.ค, 8.ก, 9.ค, 10.ข`,
+          image: "images/week2-oop-exercise-quiz.jpg",
+          createdAt: 1730778600000
+        },
+        {
+          id: "def-week1-pdf-sdlc",
+          category: "cover",
+          categoryLabel: "หน้าปก / เอกสารนำเสนอ",
+          title: "ไฟล์เอกสารนำเสนอ: การพัฒนาระบบสารสนเทศ (SDLC 7 ขั้นตอน)",
+          date: "2026-10-29",
+          week: 1,
+          time: "10:00",
           description: `เอกสารนำเสนอ: การพัฒนาระบบสารสนเทศ วงจร SDLC 7 ขั้นตอน: จากปัญหาทางธุรกิจสู่ความสำเร็จขององค์กร (SDLC Blueprint to Reality)
+• หมวดหมู่: หน้าปกและเอกสารประกอบการนำเสนอ
 • ไฟล์เอกสารฉบับเต็มรูปแบบ PDF จำนวน 13 หน้า (ขนาด 1.18 MB)
-• เนื้อหา: ปัญหาทางธุรกิจสู่ความสำเร็จ, แก่นแท้ของการพัฒนาระบบ, วงจร SDLC 7 ขั้นตอน, ตารางวิเคราะห์บุคลากรและผลลัพธ์แต่ละขั้นตอน, นิยามศัพท์สำคัญ และบทสรุป
+• รองรับการเปิดอ่านสไลด์ทีละหน้าในหน้าต่างขยาย หรือเปิดอ่าน/ดาวน์โหลดไฟล์ PDF ฉบับเต็ม
+• เนื้อหาในสไลด์: ปัญหาทางธุรกิจสู่ความสำเร็จ, แก่นแท้ของการพัฒนาระบบ, วงจร SDLC 7 ขั้นตอน, ตารางวิเคราะห์บุคลากรและผลลัพธ์แต่ละขั้นตอน, นิยามศัพท์สำคัญ และบทสรุป
 • สามารถกดปุ่ม "เปิดอ่านไฟล์ PDF" เพื่อเปิดอ่านเอกสารฉบับเต็มได้ทันที หรือดาวน์โหลดเก็บไว้ได้`,
           image: "images/sdlc-cover-blueprint.jpg",
           pdfUrl: "files/SDLC_Blueprint_to_Reality_compressed.pdf",
           pdfName: "SDLC_Blueprint_to_Reality_compressed.pdf",
           pdfPages: "13 หน้า",
+          slides: [
+            "images/slides/sdlc/slide_1.jpg",
+            "images/slides/sdlc/slide_2.jpg",
+            "images/slides/sdlc/slide_3.jpg",
+            "images/slides/sdlc/slide_4.jpg",
+            "images/slides/sdlc/slide_5.jpg",
+            "images/slides/sdlc/slide_6.jpg",
+            "images/slides/sdlc/slide_7.jpg",
+            "images/slides/sdlc/slide_8.jpg",
+            "images/slides/sdlc/slide_9.jpg",
+            "images/slides/sdlc/slide_10.jpg",
+            "images/slides/sdlc/slide_11.jpg",
+            "images/slides/sdlc/slide_12.jpg",
+            "images/slides/sdlc/slide_13.jpg"
+          ],
           createdAt: 1730175600000
         },
         {
-          id: "def-week2-sdlc",
+          id: "def-week1-sdlc",
+          category: "mindmap",
+          categoryLabel: "ชิ้นงาน / ผังสรุปความรู้",
           title: "ผังสรุปความรู้: การพัฒนาระบบสารสนเทศ (SDLC)",
           date: "2026-10-29",
-          week: 2,
+          week: 1,
           time: "10:30",
           description: `สรุปสาระสำคัญการพัฒนาระบบสารสนเทศ และวงจรการพัฒนาระบบ SDLC (Systems Development Life Cycle) 7 ขั้นตอนหลัก:
 1. เข้าใจปัญหา (Problem Recognition)
@@ -780,25 +1080,39 @@
 5. พัฒนาระบบ (Development)
 6. ทดสอบและติดตั้งระบบ (Implementation and Testing)
 7. บำรุงรักษาระบบ (Maintenance)`,
-          image: "images/week2-sdlc-mindmap.jpg",
+          image: "images/week1-sdlc-mindmap.jpg",
           createdAt: 1730173800000
         },
         {
-          id: "def-week2-exercise-quiz",
+          id: "def-week1-exercise-quiz",
+          category: "quiz",
+          categoryLabel: "ใบงาน / แบบฝึกหัดและแบบทดสอบ",
           title: "แบบฝึกหัดและแบบทดสอบหลังเรียน หน่วยที่ 1",
           date: "2026-10-29",
-          week: 2,
+          week: 1,
           time: "11:00",
           description: `แบบฝึกหัดและแบบทดสอบวัดผลสัมฤทธิ์หลังเรียน หน่วยการเรียนรู้ที่ 1 เรื่อง การพัฒนาระบบสารสนเทศ
 • แบบฝึกหัด 5 ข้อ: อธิบายความหมายการพัฒนาระบบ, วงจร SDLC 7 ขั้นตอน, และการดูแลรักษาระบบ
 • แบบทดสอบหลังเรียน 10 ข้อ: วัดความเข้าใจกระบวนการพัฒนาและวิเคราะห์ระบบ พร้อมเฉลยคำตอบครบถ้วน`,
-          image: "images/week2-exercise-quiz.jpg",
+          image: "images/week1-exercise-quiz.jpg",
           createdAt: 1730172000000
         }
       ];
 
       let selectedWeekFilter = "all";
+      let selectedCategoryFilter = "all";
       let allLoadedWorks = [];
+      let currentWorkSlides = null;
+      let currentSlideIndex = 0;
+
+      function getCategoryLabel(category) {
+        switch (category) {
+          case "cover": return "หน้าปก / เอกสารนำเสนอ";
+          case "mindmap": return "ชิ้นงาน / ผังสรุปความรู้";
+          case "quiz": return "ใบงาน / แบบฝึกหัดและแบบทดสอบ";
+          default: return "ชิ้นงานทั่วไป";
+        }
+      }
 
       function getHiddenDefaultWorkIds() {
         try {
@@ -866,6 +1180,11 @@
         return icon;
       }
 
+      function updateFilterButtons(works) {
+        updateWeekFilterButtons(works);
+        updateCategoryFilterButtons(works);
+      }
+
       function updateWeekFilterButtons(works) {
         const filterBar = document.getElementById("week-filter-bar");
         if (!filterBar) return;
@@ -877,7 +1196,7 @@
         allBtn.style.cursor = "pointer";
         allBtn.addEventListener("click", () => {
           selectedWeekFilter = "all";
-          updateWeekFilterButtons(allLoadedWorks);
+          updateFilterButtons(allLoadedWorks);
           renderFilteredWorks();
         });
         filterBar.append(allBtn);
@@ -889,21 +1208,69 @@
           btn.style.cursor = "pointer";
           btn.addEventListener("click", () => {
             selectedWeekFilter = String(w);
-            updateWeekFilterButtons(allLoadedWorks);
+            updateFilterButtons(allLoadedWorks);
             renderFilteredWorks();
           });
           filterBar.append(btn);
         });
       }
 
+      function updateCategoryFilterButtons(works) {
+        const catBar = document.getElementById("category-filter-bar");
+        if (!catBar) return;
+        catBar.replaceChildren();
+
+        const baseWorks = selectedWeekFilter === "all"
+          ? works
+          : works.filter((w) => String(w.week) === selectedWeekFilter);
+
+        const coverCount = baseWorks.filter((w) => w.category === "cover" || Boolean(w.pdfUrl)).length;
+        const assignmentCount = baseWorks.length - coverCount;
+
+        const categories = [
+          { id: "all", label: `ทุกประเภท (${baseWorks.length})` },
+          { id: "cover", label: `📘 หน้าปก / สไลด์นำเสนอ (${coverCount})` },
+          { id: "assignment", label: `📝 ชิ้นงานและแบบฝึกหัด (${assignmentCount})` }
+        ];
+
+        categories.forEach((cat) => {
+          const btn = makeElement("button", "tag" + (selectedCategoryFilter === cat.id ? " active-filter" : ""), cat.label);
+          btn.type = "button";
+          btn.style.cursor = "pointer";
+          btn.addEventListener("click", () => {
+            selectedCategoryFilter = cat.id;
+            updateCategoryFilterButtons(allLoadedWorks);
+            renderFilteredWorks();
+          });
+          catBar.append(btn);
+        });
+      }
+
       function renderFilteredWorks() {
-        const filtered = selectedWeekFilter === "all"
-          ? allLoadedWorks
-          : allLoadedWorks.filter((w) => String(w.week) === selectedWeekFilter);
+        let filtered = allLoadedWorks;
+        if (selectedWeekFilter !== "all") {
+          filtered = filtered.filter((w) => String(w.week) === selectedWeekFilter);
+        }
+        if (selectedCategoryFilter !== "all") {
+          if (selectedCategoryFilter === "cover") {
+            filtered = filtered.filter((w) => w.category === "cover" || Boolean(w.pdfUrl));
+          } else if (selectedCategoryFilter === "assignment") {
+            filtered = filtered.filter((w) => w.category !== "cover" && !w.pdfUrl);
+          } else {
+            filtered = filtered.filter((w) => w.category === selectedCategoryFilter);
+          }
+        }
+        
+        const countLabel = document.getElementById("filtered-works-count");
+        if (countLabel) {
+          const weekText = selectedWeekFilter === "all" ? "ทุกสัปดาห์" : `สัปดาห์ที่ ${selectedWeekFilter}`;
+          const catText = selectedCategoryFilter === "all" ? "ทุกประเภท" : (selectedCategoryFilter === "cover" ? "หน้าปก" : "ชิ้นงาน");
+          countLabel.textContent = `แสดง ${filtered.length} รายการ (${weekText} · ${catText})`;
+        }
         renderWorksList(filtered);
       }
 
-            function renderWorksList(works) {
+      function renderWorksList(works) {
         imageUrls.forEach((url) => {
           if (!url.startsWith("images/")) URL.revokeObjectURL(url);
         });
@@ -918,14 +1285,15 @@
           const emptyIcon = makeElement("span", "empty-icon");
           emptyIcon.append(makeIcon("M12 3 14.8 9.2 21 12l-6.2 2.8L12 21l-2.8-6.2L3 12l6.2-2.8L12 3Z"));
           empty.append(emptyIcon);
-          empty.append(makeElement("strong", "", "ยังไม่มีผลงานในสัปดาห์นี้"));
-          empty.append(makeElement("p", "", "เลือกสัปดาห์อื่น หรือเพิ่มผลงานใหม่ได้จากแบบฟอร์ม"));
+          empty.append(makeElement("strong", "", "ไม่พบผลงานตามเงื่อนไขที่เลือก"));
+          empty.append(makeElement("p", "", "เลือกสัปดาห์หรือหมวดหมู่อื่น หรือเพิ่มผลงานใหม่ได้จากแบบฟอร์ม"));
           workItems.append(empty);
           return;
         }
 
         works.forEach((work) => {
-          const card = makeElement("article", "work-card");
+          const isCover = work.category === "cover" || Boolean(work.pdfUrl);
+          const card = makeElement("article", "work-card" + (isCover ? " is-cover" : ""));
           const preview = makeElement("button", "work-preview");
           preview.type = "button";
           preview.setAttribute("aria-label", `ขยายดูผลงาน ${work.title}`);
@@ -936,14 +1304,26 @@
           }
           image.src = src;
           image.alt = `ภาพผลงาน ${work.title}`;
+          
           if (work.pdfUrl) {
             const pdfBadge = makeElement("span", "pdf-file-badge");
-            pdfBadge.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg> เอกสาร PDF (' + (work.pdfPages || '13 หน้า') + ')';
+            pdfBadge.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg> เอกสาร PDF (' + (work.pdfPages || 'ฉบับเต็ม') + ')';
             preview.append(pdfBadge);
           }
           preview.append(image);
           preview.addEventListener("click", () => openWork(work));
+
           const body = makeElement("div", "work-body");
+
+          const badgeRow = makeElement("div", "work-badge-row");
+          const catClass = isCover ? "type-cover" : (work.category === "mindmap" ? "type-mindmap" : (work.category === "quiz" ? "type-quiz" : "type-assignment"));
+          const catIcon = isCover ? "📘 " : (work.category === "mindmap" ? "🎨 " : (work.category === "quiz" ? "📝 " : "📄 "));
+          const catLabelText = work.categoryLabel || getCategoryLabel(work.category || (isCover ? "cover" : "assignment"));
+          const catBadge = makeElement("span", `work-type-badge ${catClass}`, catIcon + catLabelText);
+          const weekBadge = makeElement("span", "work-week-badge", `สัปดาห์ที่ ${work.week}`);
+          badgeRow.append(catBadge, weekBadge);
+          body.append(badgeRow);
+
           body.append(makeElement("h3", "", work.title));
           body.append(makeElement("p", "work-date", `${formatDate(work.date)} · สัปดาห์ที่ ${work.week}`));
           if (work.description) body.append(makeElement("p", "work-description", work.description));
@@ -972,10 +1352,47 @@
         });
       }
 
+      function updateSlideView() {
+        if (!currentWorkSlides || currentWorkSlides.length === 0) return;
+        workDialogImage.src = currentWorkSlides[currentSlideIndex];
+        const counter = document.getElementById("slide-counter-badge");
+        if (counter) {
+          counter.textContent = `${currentSlideIndex + 1} / ${currentWorkSlides.length}`;
+        }
+        const prevBtn = document.getElementById("slide-prev-btn");
+        const nextBtn = document.getElementById("slide-next-btn");
+        if (prevBtn) prevBtn.disabled = currentSlideIndex === 0;
+        if (nextBtn) nextBtn.disabled = currentSlideIndex === currentWorkSlides.length - 1;
+      }
+
       function openWork(work) {
-        const isFile = work.image instanceof Blob || work.image instanceof File;
-        workDialogImageUrl = isFile ? URL.createObjectURL(work.image) : work.image;
-        workDialogImage.src = workDialogImageUrl;
+        const isCover = work.category === "cover" || Boolean(work.pdfUrl);
+        const badgeContainer = document.getElementById("work-dialog-badge-container");
+        if (badgeContainer) {
+          badgeContainer.replaceChildren();
+          const catClass = isCover ? "type-cover" : (work.category === "mindmap" ? "type-mindmap" : (work.category === "quiz" ? "type-quiz" : "type-assignment"));
+          const catIcon = isCover ? "📘 " : (work.category === "mindmap" ? "🎨 " : (work.category === "quiz" ? "📝 " : "📄 "));
+          const catLabelText = work.categoryLabel || getCategoryLabel(work.category || (isCover ? "cover" : "assignment"));
+          const catBadge = makeElement("span", `work-type-badge ${catClass}`, catIcon + catLabelText);
+          const weekBadge = makeElement("span", "work-week-badge", `สัปดาห์ที่ ${work.week}`);
+          badgeContainer.append(catBadge, weekBadge);
+        }
+
+        const slideNav = document.getElementById("slide-nav-overlay");
+        if (work.slides && Array.isArray(work.slides) && work.slides.length > 0) {
+          currentWorkSlides = work.slides;
+          currentSlideIndex = 0;
+          if (slideNav) slideNav.style.display = "inline-flex";
+          updateSlideView();
+        } else {
+          currentWorkSlides = null;
+          currentSlideIndex = 0;
+          if (slideNav) slideNav.style.display = "none";
+          const isFile = work.image instanceof Blob || work.image instanceof File;
+          workDialogImageUrl = isFile ? URL.createObjectURL(work.image) : work.image;
+          workDialogImage.src = workDialogImageUrl;
+        }
+
         workDialogImage.alt = `ภาพผลงาน ${work.title}`;
         document.getElementById("work-dialog-title").textContent = work.title;
         document.getElementById("work-dialog-date").textContent = `${formatDate(work.date)} · สัปดาห์ที่ ${work.week}`;
@@ -990,9 +1407,9 @@
               <div class="pdf-action-bar">
                 <a class="pdf-action-btn" href="${work.pdfUrl}" target="_blank" rel="noopener">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-                  เปิดอ่านไฟล์ PDF (${work.pdfPages || '13 หน้า'})
+                  เปิดอ่านไฟล์ PDF (${work.pdfPages || 'ฉบับเต็ม'})
                 </a>
-                <a class="pdf-secondary-btn" href="${work.pdfUrl}" download="${work.pdfName || 'SDLC_Presentation.pdf'}">
+                <a class="pdf-secondary-btn" href="${work.pdfUrl}" download="${work.pdfName || 'presentation.pdf'}">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
                   ดาวน์โหลด PDF
                 </a>
@@ -1013,8 +1430,14 @@
         }
         workDialogImageUrl = undefined;
         workDialogImage.removeAttribute("src");
+        currentWorkSlides = null;
+        currentSlideIndex = 0;
+        const slideNav = document.getElementById("slide-nav-overlay");
+        if (slideNav) slideNav.style.display = "none";
       });
+
       document.getElementById("work-dialog-close").addEventListener("click", () => workDialog.close());
+
       const slidePrevBtn = document.getElementById("slide-prev-btn");
       const slideNextBtn = document.getElementById("slide-next-btn");
       if (slidePrevBtn) {
@@ -1033,6 +1456,7 @@
           }
         });
       }
+
       window.addEventListener("keydown", (e) => {
         if (!workDialog.open || !currentWorkSlides) return;
         if (e.key === "ArrowLeft" && currentSlideIndex > 0) {
@@ -1046,7 +1470,7 @@
 
       async function refreshWorks() {
         allLoadedWorks = await getWorks();
-        updateWeekFilterButtons(allLoadedWorks);
+        updateFilterButtons(allLoadedWorks);
         renderFilteredWorks();
       }
 
@@ -1093,10 +1517,13 @@
           if (!database) {
             throw new Error("ฐานข้อมูลยังไม่พร้อมใช้งาน");
           }
+          const chosenCategory = String(data.get("category") || "assignment");
           const transaction = database.transaction("works", "readwrite");
           transaction.objectStore("works").add({
             id: crypto.randomUUID(),
             title: String(data.get("title")).trim(),
+            category: chosenCategory,
+            categoryLabel: getCategoryLabel(chosenCategory),
             date: String(data.get("date")),
             week: Number(data.get("week")),
             time: String(data.get("time")),
@@ -1122,7 +1549,7 @@
 
       // แสดงผลงานเริ่มต้นทันที
       allLoadedWorks = defaultWorks.filter((item) => !getHiddenDefaultWorkIds().includes(item.id));
-      updateWeekFilterButtons(allLoadedWorks);
+      updateFilterButtons(allLoadedWorks);
       renderFilteredWorks();
 
       openDatabase()
